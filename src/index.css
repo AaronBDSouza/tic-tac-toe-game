@@ -23,6 +23,15 @@
   height: 500px;
   border: 1px solid grey;
   padding: 0 20px 0 20px;
+
+}
+
+.boardContainer{
+  height: 100%;
+}
+
+.rowContainer{
+
 }
 
 .board-row{
@@ -35,7 +44,5 @@
 
 .square{
   width: 33.33%;
-  height: 100%;
-  padding: 15%;
   border: 2px solid salmon;
 }
