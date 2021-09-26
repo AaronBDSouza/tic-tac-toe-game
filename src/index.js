@@ -118,7 +118,7 @@ class Board extends React.Component{
             </div>
             <span className="resetDiv">{winner === 0 ? 'Click the restart button to play more games': ''}</span>
             <div className="buttonControls">
-                <button>Reset</button>
+                <button className="resetButton"><i className ="far fa-arrow-alt-down"></i> Reset</button>
                 <button>Undo</button>
                 <button>Redo</button>
             </div>

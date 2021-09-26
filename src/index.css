@@ -32,6 +32,7 @@ body{
   color: white;
   font-size: 25px;
   width: 100%;
+  text-align: center;
 }
 
 .rowContainer{
@@ -73,5 +74,12 @@ body{
 }
 
 .buttonControls{
-  
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.resetButton{
+  background-color: red;
 }
