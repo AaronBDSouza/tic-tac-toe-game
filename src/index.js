@@ -21,9 +21,10 @@ import reportWebVitals from './reportWebVitals';
 //     }
 // }
 
+
 function Square(props){
     return(
-        <button className="square" onClick={() => props.onClick()}> { ' ' + props.value} </button>
+        <button className="square" onClick={() => props.onClick()} style={{ color: (props.clickCounter > 0 && props.value != null ? (props.value === 'X'?'blue':'#48d748'):'#efefef') }}> {''+props.value} </button>
     );
 }
 
@@ -55,11 +56,15 @@ class Board extends React.Component{
         this.state = {
             squares: Array(9).fill(null),
             xIsNext: true,
+            clickCounter : 0
         };
     }
 
     handleClick(i){
         const squares = this.state.squares.slice();
+        let clickCounter = this.state.clickCounter;
+
+        clickCounter = clickCounter + 1;
 
         if(calculateWinner(squares) || squares[i]){
             return;
@@ -69,11 +74,13 @@ class Board extends React.Component{
         this.setState({
             squares:squares,
             xIsNext: !this.state.xIsNext,
+            clickCounter: clickCounter,
+            gameOver:false
         });
     }
 
   renderSquare(i){
-      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)}/>;
+      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} clickCounter={this.state.clickCounter}/>;
   }
 
   render(){
@@ -81,32 +88,41 @@ class Board extends React.Component{
       let status; 
 
       if(winner){
-          status = 'Winner: '+ winner;
+          status = 'Player '+ (this.state.xIsNext ? 'Y': 'X') + ' won!';
       }
       else{
           status = 'Next player: ' + (this.state.xIsNext ? 'X': 'O');
       }
 
       return(
-          <div className="boardContainer">
-            <div className="status">{status}</div>
-            <div className="rowContainer">
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>    
-            </div>            
+          <div>
+            <div className="gameStatus">{status}</div>
+            <div className="boardContainer">
+                <div className="rowContainer">
+                    <div className="board-row">
+                        {this.renderSquare(0)}
+                        {this.renderSquare(1)}
+                        {this.renderSquare(2)}
+                    </div>
+                    <div className="board-row">
+                        {this.renderSquare(3)}
+                        {this.renderSquare(4)}
+                        {this.renderSquare(5)}
+                    </div>
+                    <div className="board-row">
+                        {this.renderSquare(6)}
+                        {this.renderSquare(7)}
+                        {this.renderSquare(8)}
+                    </div>    
+                </div>            
+            </div>
+            <span className="resetDiv">{winner === 0 ? 'Click the restart button to play more games': ''}</span>
+            <div className="buttonControls">
+                <button>Reset</button>
+                <button>Undo</button>
+                <button>Redo</button>
+            </div>
+
           </div>
       );
   }
