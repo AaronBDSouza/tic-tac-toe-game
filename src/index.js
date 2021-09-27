@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 //import App from './App';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSyncAlt, faUndo, faRedo  } from '@fortawesome/free-solid-svg-icons';
 import reportWebVitals from './reportWebVitals';
-
 /*ReactDOM.render(
   <React.StrictMode>
     <App />
@@ -20,6 +21,7 @@ import reportWebVitals from './reportWebVitals';
 //         );
 //     }
 // }
+
 
 
 function Square(props){
@@ -175,18 +177,30 @@ class Game extends React.Component{
                     <div>{ status }</div>
                     <div>{/* TODO */}</div>
                 </div>
-                <span className="resetDiv">{winner === 0 ? 'Click the restart button to play more games': ''}</span>
                 <div className="buttonControls">
-                    <button className="resetButton" onClick={() => this.jumpTo(0)}><i className ="far fa-arrow-alt-down"></i> Reset</button>
-                    <button onClick={() => this.jumpTo((this.state.stepNumber > 0 ? this.state.stepNumber - 1 : 0))}>Undo</button>
-                    <button onClick={() => this.jumpTo(this.state.stepNumber < this.state.history.length - 1 ? this.state.stepNumber + 1 : this.state.history.length - 1)}>Redo</button>
+
+                    <button className="resetButton" onClick={() => this.jumpTo(0)}>
+                        <FontAwesomeIcon icon={faSyncAlt} size="4x" color="red"/>
+                    </button>
+
+                    <button className="undoButton" onClick={() => this.jumpTo((this.state.stepNumber > 0 ? this.state.stepNumber - 1 : 0))}>
+                        <FontAwesomeIcon icon={faUndo} size="4x" color="blue"/>
+                    </button>
+
+                    <button className="redoButton" onClick={() => this.jumpTo(this.state.stepNumber < this.state.history.length - 1 ? this.state.stepNumber + 1 : this.state.history.length - 1)}>
+                        <FontAwesomeIcon icon={faRedo} size="4x" color="green"/>
+                    </button>
+
                 </div>
+
                 <div className="restoreDropdown">
+
                     <label className="restoreGamesLabel">Restore Game: </label>
                     <select ref={this.restoreCheckpointValue} onChange={() => this.getRestoreCheckPointValue()}>
                         <option defaultValue disabled value="">Select Checkpoint</option>
                         {moves}
                     </select>
+
                 </div>    
             </div>    
         </div>

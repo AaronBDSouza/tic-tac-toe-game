@@ -36,6 +36,7 @@ body{
   font-size: 25px;
   width: 100%;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .rowContainer{
@@ -49,7 +50,6 @@ body{
 .boardContainer{
   /*margin-top: 10px;*/
   height: 100%;
-  
   padding: 0 20px 0 20px;
 
 }
@@ -85,17 +85,15 @@ body{
   overflow: hidden;
 }
 
-.resetDiv{
-  color: white;
-  font-size: 25px;
-  width: 100%;
-}
-
 .buttonControls{
   width: 100%;
   /*margin-top: 20px;*/
   display: flex;
   justify-content: center;
+}
+
+.resetButton,.undoButton,.redoButton{
+  margin-right: 15px;
 }
 
 .restoreGamesLabel{
@@ -112,6 +110,3 @@ body{
   justify-content: center;
 }
 
-.resetButton{
-  background-color: red;
-}
