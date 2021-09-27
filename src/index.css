@@ -60,6 +60,7 @@ body{
   /* background-color: white; */
 }
 
+
 .boardBorder{
   width: 270px;
   background-color: white;
@@ -75,6 +76,10 @@ body{
   width: 300px;
   overflow: hidden;
   /*width: 100%;*/
+
+  @media only screen and (min-width: 220px) {
+    width: 150px;
+  }
 }
 
 .square{
@@ -94,6 +99,7 @@ body{
 
 .resetButton,.undoButton,.redoButton{
   margin-right: 15px;
+  padding: 5px;
 }
 
 .restoreGamesLabel{
@@ -110,3 +116,19 @@ body{
   justify-content: center;
 }
 
+
+@media(max-width: 220px) {
+  .rowContainer{
+    height: 300px;
+  }
+
+  .boardBorder{
+    width: 200px;
+    padding: 10px;
+  }
+
+  .board-row{
+    width: 200px;
+  }
+
+}

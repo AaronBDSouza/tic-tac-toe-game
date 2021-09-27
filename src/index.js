@@ -196,7 +196,7 @@ class Game extends React.Component{
                 <div className="restoreDropdown">
 
                     <label className="restoreGamesLabel">Restore Game: </label>
-                    <select ref={this.restoreCheckpointValue} onChange={() => this.getRestoreCheckPointValue()}>
+                    <select ref={this.restoreCheckpointValue} onChange={() => this.getRestoreCheckPointValue()} style={{fontSize:`15px`}}>
                         <option defaultValue disabled value="">Select Checkpoint</option>
                         {moves}
                     </select>
