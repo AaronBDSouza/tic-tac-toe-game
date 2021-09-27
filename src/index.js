@@ -51,54 +51,15 @@ function calculateWinner(squares){
 
 
 class Board extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            squares: Array(9).fill(null),
-            xIsNext: true,
-            clickCounter : 0
-        };
-    }
-
-    handleClick(i){
-        const squares = this.state.squares.slice();
-        let clickCounter = this.state.clickCounter;
-
-        clickCounter = clickCounter + 1;
-
-        if(calculateWinner(squares) || squares[i]){
-            return;
-        }
-
-        squares[i] = this.state.xIsNext ? 'X': 'O';
-        this.setState({
-            squares:squares,
-            xIsNext: !this.state.xIsNext,
-            clickCounter: clickCounter,
-            gameOver:false
-        });
-    }
 
   renderSquare(i){
-      return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)} clickCounter={this.state.clickCounter}/>;
+      return <Square value={this.props.squares[i]} onClick={()=>this.props.onClick(i)} clickCounter={this.props.clickCounter}/>;
   }
 
   render(){
-      const winner = calculateWinner(this.state.squares);
-      let status; 
-
-      if(winner){
-          status = 'Player '+ (this.state.xIsNext ? 'Y': 'X') + ' won!';
-      }
-      else{
-          status = 'Next player: ' + (this.state.xIsNext ? 'X': 'O');
-      }
-
       return(
           <div>
-            <div className="gameStatus">{status}</div>
-            <div className="boardContainer">
-                <div className="rowContainer">
+
                     <div className="board-row">
                         {this.renderSquare(0)}
                         {this.renderSquare(1)}
@@ -115,33 +76,83 @@ class Board extends React.Component{
                         {this.renderSquare(8)}
                     </div>    
                 </div>            
-            </div>
-            <span className="resetDiv">{winner === 0 ? 'Click the restart button to play more games': ''}</span>
-            <div className="buttonControls">
-                <button className="resetButton"><i className ="far fa-arrow-alt-down"></i> Reset</button>
-                <button>Undo</button>
-                <button>Redo</button>
-            </div>
-
-          </div>
       );
   }
 }
 
 class Game extends React.Component{
-  render(){
+    constructor(props){
+        super(props);
+        this.state = {
+            history: [{
+                squares: Array(9).fill(null),
+            }],
+            xIsNext: true,
+            clickCounter : 0
+        };
+    }
+
+    handleClick(i){
+        const history = this.state.history;
+        const current = history[history.length - 1]
+        const squares = current.squares.slice();
+
+        let clickCounter = this.state.clickCounter;
+
+        clickCounter = clickCounter + 1;
+
+        if(calculateWinner(squares) || squares[i]){
+            return;
+        }
+
+        squares[i] = this.state.xIsNext ? 'X': 'O';
+        this.setState({
+            history:history.concat([{
+                squares:squares
+            }]),
+            xIsNext: !this.state.xIsNext,
+            clickCounter: clickCounter,
+            gameOver:false
+        });
+    }
+    
+    render(){
+        const history = this.state.history;
+        const current = history[history.length - 1]
+        const winner = calculateWinner(current.squares);
+
+        let status; 
+
+        if(winner){
+            status = 'Player '+ (this.state.xIsNext ? 'Y': 'X') + ' won!';
+        }
+        else{
+            status = 'Next player: ' + (this.state.xIsNext ? 'X': 'O');
+        }
+
       return(
           <div>
             <div className="game-heading">
                 <h1>Tic-Tac-Toe !</h1>   
             </div>       
             <div className="game">
+                <div className="gameStatus">{status}</div>
                 <div className="game-board">
-                    <Board/>
+                    <div className="boardContainer">
+                        <div className="rowContainer">
+                            <Board squares={current.squares} onClick={(i)=>this.handleClick(i)} clickCounter={this.state.clickCounter}/>
+                        </div>
+                    </div>
                 </div>
                 <div className="game-info">
-                    <div>{/* status */}</div>
+                    <div>{ status }</div>
                     <div>{/* TODO */}</div>
+                </div>
+                <span className="resetDiv">{winner === 0 ? 'Click the restart button to play more games': ''}</span>
+                <div className="buttonControls">
+                    <button className="resetButton"><i className ="far fa-arrow-alt-down"></i> Reset</button>
+                    <button>Undo</button>
+                    <button>Redo</button>
                 </div>
             </div>
           </div>
