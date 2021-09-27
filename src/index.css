@@ -85,7 +85,6 @@ body{
   overflow: hidden;
 }
 
-
 .resetDiv{
   color: white;
   font-size: 25px;
@@ -95,6 +94,20 @@ body{
 .buttonControls{
   width: 100%;
   /*margin-top: 20px;*/
+  display: flex;
+  justify-content: center;
+}
+
+.restoreGamesLabel{
+  color: white;
+  font-family: 'Lucida Sans';
+  font-size: 15px;
+  margin-right: 10px;
+}
+
+.restoreDropdown{
+  width: 100%;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
 }

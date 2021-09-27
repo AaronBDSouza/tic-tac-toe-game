@@ -90,6 +90,7 @@ class Game extends React.Component{
             clickCounter : 0,
             stepNumber: 0,
         };
+        this.restoreCheckpointValue = React.createRef();
     }
 
     handleClick(i){
@@ -117,38 +118,47 @@ class Game extends React.Component{
         });
     }
 
+    getRestoreCheckPointValue(){
+        const restoreCheckpointValue = this.restoreCheckpointValue.current.value;
+        // alert(restoreCheckpointValue);
+        /*console.log(restoreCheckpointValue);*/
+        this.jumpTo(restoreCheckpointValue);
+        this.restoreCheckpointValue.current.value = "";
+    }
+
     jumpTo(step){
         this.setState({
             stepNumber:step,
             xIsNext: (step % 2) === 0,
         });
+        
     }
-    
+
     render(){
         const history = this.state.history;
         const current = history[this.state.stepNumber]
         const winner = calculateWinner(current.squares);
-
         const moves = history.map((step,move) => {
             const moveDesc = move ?  'Go to move #' + move :'Go to game start';
             return(
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{moveDesc}</button>
-                </li>
+                // <li key={move}>
+                //     <button onClick={() => this.jumpTo(move)}>{moveDesc}</button>
+                // </li>
+                <option key={move} value={move}>{moveDesc}</option>
             );
         })
 
         let status; 
 
         if(winner){
-            status = 'Player '+ (this.state.xIsNext ? 'Y': 'X') + ' won!';
+            status = 'Player '+ (this.state.xIsNext ? 'O': 'X') + ' won!';
         }
         else{
             status = 'Next player: ' + (this.state.xIsNext ? 'X': 'O');
         }
 
       return(
-          <div>
+        <div>
             <div className="game-heading">
                 <h1>Tic-Tac-Toe !</h1>   
             </div>       
@@ -167,15 +177,19 @@ class Game extends React.Component{
                 </div>
                 <span className="resetDiv">{winner === 0 ? 'Click the restart button to play more games': ''}</span>
                 <div className="buttonControls">
-                    <button className="resetButton"><i className ="far fa-arrow-alt-down"></i> Reset</button>
-                    <button>Undo</button>
-                    <button>Redo</button>
-                    <ol>{moves}</ol>
+                    <button className="resetButton" onClick={() => this.jumpTo(0)}><i className ="far fa-arrow-alt-down"></i> Reset</button>
+                    <button onClick={() => this.jumpTo((this.state.stepNumber > 0 ? this.state.stepNumber - 1 : 0))}>Undo</button>
+                    <button onClick={() => this.jumpTo(this.state.stepNumber < this.state.history.length - 1 ? this.state.stepNumber + 1 : this.state.history.length - 1)}>Redo</button>
                 </div>
-            </div>
-          </div>
-
-
+                <div className="restoreDropdown">
+                    <label className="restoreGamesLabel">Restore Game: </label>
+                    <select ref={this.restoreCheckpointValue} onChange={() => this.getRestoreCheckPointValue()}>
+                        <option defaultValue disabled value="">Select Checkpoint</option>
+                        {moves}
+                    </select>
+                </div>    
+            </div>    
+        </div>
       );
   }
 }
