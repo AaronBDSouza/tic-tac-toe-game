@@ -4,24 +4,12 @@ import './index.css';
 //import App from './App';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt, faUndo, faRedo  } from '@fortawesome/free-solid-svg-icons';
-import reportWebVitals from './reportWebVitals';
-/*ReactDOM.render(
-  <React.StrictMode>
+
+/*<React.StrictMode>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
 );*/
-
-
-
-// class Square extends React.Component{
-//     render(){
-//         return(
-//             <button className="square" onClick={() => this.props.onClick()}>{this.props.value}</button>
-//         );
-//     }
-// }
-
 
 
 function Square(props){
@@ -81,6 +69,7 @@ class Board extends React.Component{
   }
 }
 
+
 class Game extends React.Component{
     constructor(props){
         super(props);
@@ -122,7 +111,6 @@ class Game extends React.Component{
 
     getRestoreCheckPointValue(){
         const restoreCheckpointValue = this.restoreCheckpointValue.current.value;
-        // alert(restoreCheckpointValue);
         /*console.log(restoreCheckpointValue);*/
         this.jumpTo(restoreCheckpointValue);
         this.restoreCheckpointValue.current.value = "";
@@ -143,9 +131,6 @@ class Game extends React.Component{
         const moves = history.map((step,move) => {
             const moveDesc = move ?  'Go to move #' + move :'Go to game start';
             return(
-                // <li key={move}>
-                //     <button onClick={() => this.jumpTo(move)}>{moveDesc}</button>
-                // </li>
                 <option key={move} value={move}>{moveDesc}</option>
             );
         })
@@ -180,15 +165,18 @@ class Game extends React.Component{
                 <div className="buttonControls">
 
                     <button className="resetButton" onClick={() => this.jumpTo(0)}>
-                        <FontAwesomeIcon icon={faSyncAlt} size="4x" color="red"/>
+                        <span class="resettooltiptext">Reset Game</span>
+                        <FontAwesomeIcon icon={faSyncAlt} size="3x" color="red"/>
                     </button>
 
                     <button className="undoButton" onClick={() => this.jumpTo((this.state.stepNumber > 0 ? this.state.stepNumber - 1 : 0))}>
-                        <FontAwesomeIcon icon={faUndo} size="4x" color="blue"/>
+                        <span class="undotooltiptext">Undo last move</span>
+                        <FontAwesomeIcon icon={faUndo} size="3x" color="blue"/>
                     </button>
 
                     <button className="redoButton" onClick={() => this.jumpTo(this.state.stepNumber < this.state.history.length - 1 ? this.state.stepNumber + 1 : this.state.history.length - 1)}>
-                        <FontAwesomeIcon icon={faRedo} size="4x" color="green"/>
+                        <span class="redotooltiptext">Redo last move</span>
+                            <FontAwesomeIcon icon={faRedo} size="3x" color="green"/>
                     </button>
 
                 </div>
@@ -209,8 +197,3 @@ class Game extends React.Component{
 }
 
 ReactDOM.render(<Game/>,document.getElementById('root'));
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
